@@ -1,5 +1,6 @@
 ﻿using FinancialTradingPlatform.CrossCutting.DTOs.Requests;
 using FinancialTradingPlatform.CrossCutting.DTOs.Responses;
+using FinancialTradingPlatform.CrossCutting.Language;
 using FinancialTradingPlatform.Services.Interfaces;
 
 namespace FinancialTradingPlatform.Services
@@ -13,7 +14,7 @@ namespace FinancialTradingPlatform.Services
         public List<MACDResponse> CalculateMACD(List<MarketDataPointRequest> data)
         {
             if (data.Count < LongPeriod)
-                throw new InvalidOperationException("Insufficient data for MACD calculation.");
+                throw new InvalidOperationException(LanguageResource.InsufficientData);
 
             var prices = data.Select(x => x.ClosePrice).ToList();
             var emaShort = CalculateEma(prices, ShortPeriod);
@@ -40,7 +41,7 @@ namespace FinancialTradingPlatform.Services
         private List<double> CalculateEma(List<double> prices, int period)
         {
             if (prices.Count < period)
-                throw new InvalidOperationException("Insufficient data for EMA calculation.");
+                throw new InvalidOperationException(LanguageResource.InsufficientData);
 
             var ema = new List<double>();
             double multiplier = 2.0 / (period + 1);

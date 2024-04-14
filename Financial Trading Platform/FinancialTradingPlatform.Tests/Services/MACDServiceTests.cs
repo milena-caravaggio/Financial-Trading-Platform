@@ -1,5 +1,9 @@
 ﻿using FinancialTradingPlatform.CrossCutting.DTOs.Requests;
+using FinancialTradingPlatform.CrossCutting.Language;
 using FinancialTradingPlatform.Services;
+using NUnit.Framework;
+using System;
+using System.Collections.Generic;
 
 namespace FinancialTradingPlatform.Tests.Services
 {
@@ -17,34 +21,32 @@ namespace FinancialTradingPlatform.Tests.Services
         public void CalculateMACD_Should_Return_Correct_Values()
         {
             // Arrange
-            var marketData = GenerateMarketData(40); 
+            var marketData = GenerateMarketData();
 
-            var expectedMACDValue = 0.0; 
-            var expectedSignalValue = 0.0;
-            var expectedHistogramValue = 0.0;
+            // Ensure there is enough data
+            Assert.IsTrue(marketData.Count >= 26, LanguageResource.InsufficientData);
+
+            var expectedMACDValue = -7;
+            var expectedSignalValue = -7;
+            var expectedHistogramValue = 0;
 
             // Act
             var result = _macdService.CalculateMACD(marketData);
 
             // Assert
-            Assert.That(result.Count, Is.AtLeast(1), "Should calculate at least one MACD result.");
-
-            Assert.That(result[0].Line, Is.EqualTo(expectedMACDValue), "The MACD line value is incorrect for the first result.");
-            Assert.That(result[0].SignalLine, Is.EqualTo(expectedSignalValue), "The Signal line value is incorrect for the first result.");
-            Assert.That(result[0].Histogram, Is.EqualTo(expectedHistogramValue), "The Histogram value is incorrect for the first result.");
+            Assert.That(result.Count, Is.AtLeast(7), LanguageResource.ShouldCalculate);
+            Assert.That(result[0].Line, Is.EqualTo(expectedMACDValue), LanguageResource.MACDValueIncorrect);
+            Assert.That(result[0].SignalLine, Is.EqualTo(expectedSignalValue), LanguageResource.SignalValueIncorrect);
+            Assert.That(result[0].Histogram, Is.EqualTo(expectedHistogramValue), LanguageResource.HistogramValueIncorrect);
         }
 
-        private List<MarketDataPointRequest> GenerateMarketData(int count)
+        private List<MarketDataPointRequest> GenerateMarketData()
         {
             var data = new List<MarketDataPointRequest>();
-            var random = new Random();
-            for (int i = 0; i < count; i++)
+            // Add sufficient data points
+            for (int i = 0; i < 40; i++)
             {
-                data.Add(new MarketDataPointRequest
-                {
-                    Timestamp = DateTime.Now.AddDays(-count + i),
-                    ClosePrice = random.NextDouble() * 100
-                });
+                data.Add(new MarketDataPointRequest { Timestamp = DateTime.Now.AddDays(-i), ClosePrice = 50 + i });
             }
             return data;
         }

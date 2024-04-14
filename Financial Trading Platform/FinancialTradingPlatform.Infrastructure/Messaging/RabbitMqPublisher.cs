@@ -12,22 +12,9 @@ namespace FinancialTradingPlatform.Infrastructure.Messaging
         private readonly IConnection _connection;
         private readonly IModel _channel;
 
-        public RabbitMqPublisher(RabbitMqOptions options)
+        public RabbitMqPublisher(IConnectionFactory factory)
         {
-            var factory = new ConnectionFactory()
-            {
-                HostName = options.HostName,
-                Port = options.Port,
-                UserName = options.UserName,
-                Password = options.Password,
-                Ssl = new SslOption
-                {
-                    Enabled = options.SslEnabled,
-                    ServerName = options.ServerName,
-                    CertPath = options.CertPath,
-                    CertPassphrase = options.CertPassphrase
-                }
-            };
+           
             _connection = factory.CreateConnection();
             _channel = _connection.CreateModel();
 

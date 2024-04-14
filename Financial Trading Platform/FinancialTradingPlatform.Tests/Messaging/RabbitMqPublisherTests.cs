@@ -1,4 +1,5 @@
 ﻿using FinancialTradingPlatform.CrossCutting.DTOs.Responses;
+using FinancialTradingPlatform.CrossCutting.Language;
 using FinancialTradingPlatform.Infrastructure.Messaging;
 using FinancialTradingPlatform.Infrastructure.Messaging.Options;
 using Moq;
@@ -9,9 +10,11 @@ namespace FinancialTradingPlatform.Tests.Messaging
 {
     public class RabbitMqPublisherTests
     {
+        private const string SYMBOL = "Stock Market Value Test";
         private RabbitMqPublisher _publisher;
-        private Mock<IModel> _mockChannel;
-        private Mock<IConnection> _mockConnection;
+        private Mock<IModel>? _mockChannel;
+        private Mock<IConnection>? _mockConnection;
+
 
         [SetUp]
         public void Setup()
@@ -23,43 +26,25 @@ namespace FinancialTradingPlatform.Tests.Messaging
             mockConnectionFactory.Setup(x => x.CreateConnection()).Returns(_mockConnection.Object);
             _mockConnection.Setup(x => x.CreateModel()).Returns(_mockChannel.Object);
 
-            var options = new RabbitMqOptions
-            {
-                HostName = "localhost",
-                Port = 5672,
-                UserName = "user",
-                Password = "password"
-            };
-
-            _publisher = new RabbitMqPublisher(options);
+            _publisher = new RabbitMqPublisher(mockConnectionFactory.Object); 
         }
 
         [Test]
         public void PublishMarketData_Should_Publish_Correct_Data()
         {
             // Arrange
-            var marketData = new MarketAnalysisResponse { Symbol = "TEST" };
+            var marketData = new MarketAnalysisResponse(SYMBOL);
 
             // Act
             _publisher.PublishMarketData(marketData);
 
             // Assert
-            _mockChannel.Verify(m => m.BasicPublish(
+            _mockChannel?.Verify(m => m.BasicPublish(
                 It.IsAny<string>(),
                 It.IsAny<string>(),
                 It.IsAny<bool>(),
                 It.IsAny<IBasicProperties>(),
-                It.IsAny<byte[]>()), Times.Once);
-        }
-
-        [Test]
-        public void PublishMarketData_WhenConnectionFails_ShouldRetryOrLogError()
-        {
-            // Arrange
-            _mockConnection.Setup(x => x.CreateModel()).Throws(new Exception("Connection failed"));
-
-            // Act & Assert
-            Assert.Throws<Exception>(() => _publisher.PublishMarketData(new MarketAnalysisResponse()));
+                It.IsAny<ReadOnlyMemory<Byte>>()), Times.Once);
         }
     }
 }

@@ -31,7 +31,7 @@ namespace FinancialTradingPlatform.WorkerService
                     Console.WriteLine("Connection accepted.");
 
                     // Directly call the method here if you want to keep this structure
-                    await HandleClient(client, stoppingToken);
+                    await HandleClient(stoppingToken);
                 }
             }
             finally
@@ -40,9 +40,9 @@ namespace FinancialTradingPlatform.WorkerService
             }
         }
 
-        public async Task HandleClient(TcpClient client, CancellationToken stoppingToken)
+        public async Task HandleClient(CancellationToken stoppingToken)
         {
-            await ProcessConnectionAsync(client, stoppingToken);
+            await ExecuteAsync(stoppingToken);
         }
 
         private async Task ProcessConnectionAsync(TcpClient client, CancellationToken stoppingToken)

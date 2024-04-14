@@ -17,12 +17,11 @@ namespace FinancialTradingPlatform.Services
 
         public MarketAnalysisResponse AnalyzeMarketData(MarketDataRequest request)
         {
-            var smaResults = _smaService.CalculateSMA(request.MarketDataPoints, 10);  // Exemplo com período 10 para SMA
+            var smaResults = _smaService.CalculateSMA(request.MarketDataPoints, 10);
             var macdResults = _macdService.CalculateMACD(request.MarketDataPoints);
 
-            return new MarketAnalysisResponse
+            return new MarketAnalysisResponse(request.MarketDataPoints.FirstOrDefault()?.Symbol ?? "N/A")
             {
-                Symbol = request.MarketDataPoints.FirstOrDefault()?.Symbol ?? "N/A",
                 SMAResults = smaResults,
                 MACDResults = macdResults
             };

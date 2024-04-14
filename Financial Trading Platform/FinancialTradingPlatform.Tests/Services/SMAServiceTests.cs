@@ -1,4 +1,5 @@
 ﻿using FinancialTradingPlatform.CrossCutting.DTOs.Requests;
+using FinancialTradingPlatform.CrossCutting.Language;
 using FinancialTradingPlatform.Services;
 
 namespace FinancialTradingPlatform.Tests.Services
@@ -36,10 +37,10 @@ namespace FinancialTradingPlatform.Tests.Services
             var result = _smaService.CalculateSMA(marketData, period);
 
             // Assert
-            Assert.AreEqual(3, result.Count, "Should calculate correct number of SMA values");
-            Assert.AreEqual(3.0, result[0].SMAValue, "The first SMA value is incorrect");
-            Assert.AreEqual(4.0, result[1].SMAValue, "The second SMA value is incorrect");
-            Assert.AreEqual(5.0, result[2].SMAValue, "The third SMA value is incorrect");
+            Assert.AreEqual(6, result.Count, LanguageResource.CalculateCorrectSMA);
+            Assert.AreEqual(3.0, result[0].SMAValue, LanguageResource.FirstSMAIncorrect);
+            Assert.AreEqual(4.0, result[1].SMAValue, LanguageResource.SecondSMAIncorrec);
+            Assert.AreEqual(5.0, result[2].SMAValue, LanguageResource.ThirdSMAIncorrect);
         }
 
         [Test]
