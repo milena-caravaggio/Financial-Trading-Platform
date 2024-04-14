@@ -54,8 +54,8 @@ namespace FinancialTradingPlatform.Tests.Services
             var result = _smaService.CalculateSMA(marketData, period);
 
             // Assert
-            Assert.IsNotNull(result, "Result should not be null");
-            Assert.IsEmpty(result, "Result should be an empty list for empty input data");
+            Assert.IsNotNull(result, LanguageResource.ResultShouldNotBeNull);
+            Assert.IsEmpty(result, LanguageResource.EmptyInputData);
         }
     }
 }

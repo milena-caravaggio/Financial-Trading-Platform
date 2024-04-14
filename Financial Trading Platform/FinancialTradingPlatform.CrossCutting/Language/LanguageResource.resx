@@ -123,6 +123,9 @@
   <data name="ConnectionFailed" xml:space="preserve">
     <value>Connection failed</value>
   </data>
+  <data name="EmptyInputData" xml:space="preserve">
+    <value>Result should be an empty list for empty input data</value>
+  </data>
   <data name="FirstSMAIncorrect" xml:space="preserve">
     <value>The first SMA value is incorrect</value>
   </data>
@@ -134,6 +137,9 @@
   </data>
   <data name="MACDValueIncorrect" xml:space="preserve">
     <value>The MACD line value is incorrect for the first result</value>
+  </data>
+  <data name="ResultShouldNotBeNull" xml:space="preserve">
+    <value>Result should not be null</value>
   </data>
   <data name="SecondSMAIncorrec" xml:space="preserve">
     <value>The second SMA value is incorrec</value>

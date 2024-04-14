@@ -79,6 +79,15 @@ namespace FinancialTradingPlatform.CrossCutting.Language {
         }
         
         /// <summary>
+        ///   Looks up a localized string similar to Result should be an empty list for empty input data.
+        /// </summary>
+        public static string EmptyInputData {
+            get {
+                return ResourceManager.GetString("EmptyInputData", resourceCulture);
+            }
+        }
+        
+        /// <summary>
         ///   Looks up a localized string similar to The first SMA value is incorrect.
         /// </summary>
         public static string FirstSMAIncorrect {
@@ -111,6 +120,15 @@ namespace FinancialTradingPlatform.CrossCutting.Language {
         public static string MACDValueIncorrect {
             get {
                 return ResourceManager.GetString("MACDValueIncorrect", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Result should not be null.
+        /// </summary>
+        public static string ResultShouldNotBeNull {
+            get {
+                return ResourceManager.GetString("ResultShouldNotBeNull", resourceCulture);
             }
         }
         
