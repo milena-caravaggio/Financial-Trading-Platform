@@ -6,4 +6,8 @@
     <Nullable>enable</Nullable>
   </PropertyGroup>
 
+  <ItemGroup>
+    <ProjectReference Include="..\FinancialTradingService.Server\FinancialTradingService.Server.csproj" />
+  </ItemGroup>
+
 </Project>

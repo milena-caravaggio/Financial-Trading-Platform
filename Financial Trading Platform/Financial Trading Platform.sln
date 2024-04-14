@@ -3,8 +3,6 @@ Microsoft Visual Studio Solution File, Format Version 12.00
 # Visual Studio Version 17
 VisualStudioVersion = 17.9.34728.123
 MinimumVisualStudioVersion = 10.0.40219.1
-Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Financial Trading Platform", "Financial Trading Platform\Financial Trading Platform.csproj", "{8E2DA98F-301E-4289-BC33-1301868969DA}"
-EndProject
 Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "2 - Services", "2 - Services", "{E9417270-55C9-418E-A1A6-F6EF8B2693EA}"
 EndProject
 Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "3 - Insfrastructure", "3 - Insfrastructure", "{E22A9C65-3E0A-4A9F-84B6-AB258AED44B4}"
@@ -13,13 +11,23 @@ Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "1 - Server", "1 - Server", 
 EndProject
 Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "4 - Test", "4 - Test", "{B62189E1-250A-47B4-BC49-F2D63133D7F5}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "FinancialTradingService.Services", "FinancialTradingService.Services\FinancialTradingService.Services.csproj", "{CDF05B23-1683-4630-B030-815B4A012A83}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "FinancialTradingService.Services", "FinancialTradingService.Services\FinancialTradingService.Services.csproj", "{CDF05B23-1683-4630-B030-815B4A012A83}"
+	ProjectSection(ProjectDependencies) = postProject
+		{52F783BB-58F8-4856-A842-F0CDD84A64F1} = {52F783BB-58F8-4856-A842-F0CDD84A64F1}
+	EndProjectSection
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "FinancialTradingService.Infrastructure", "FinancialTradingService.Infrastructure\FinancialTradingService.Infrastructure.csproj", "{D47B1CE0-B5F1-47DA-8F53-CA19FE353B4D}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "FinancialTradingService.Infrastructure", "FinancialTradingService.Infrastructure\FinancialTradingService.Infrastructure.csproj", "{D47B1CE0-B5F1-47DA-8F53-CA19FE353B4D}"
+	ProjectSection(ProjectDependencies) = postProject
+		{52F783BB-58F8-4856-A842-F0CDD84A64F1} = {52F783BB-58F8-4856-A842-F0CDD84A64F1}
+	EndProjectSection
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "FinancialTradingService.Tests", "FinancialTradingService.Tests\FinancialTradingService.Tests.csproj", "{59F4419E-718E-46DD-A939-7C8A6F54BBCF}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "FinancialTradingService.Tests", "FinancialTradingService.Tests\FinancialTradingService.Tests.csproj", "{59F4419E-718E-46DD-A939-7C8A6F54BBCF}"
+	ProjectSection(ProjectDependencies) = postProject
+		{52F783BB-58F8-4856-A842-F0CDD84A64F1} = {52F783BB-58F8-4856-A842-F0CDD84A64F1}
+		{CDF05B23-1683-4630-B030-815B4A012A83} = {CDF05B23-1683-4630-B030-815B4A012A83}
+	EndProjectSection
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "FinancialTradingService.Server", "FinancialTradingService.Server\FinancialTradingService.Server.csproj", "{52F783BB-58F8-4856-A842-F0CDD84A64F1}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "FinancialTradingService.Server", "FinancialTradingService.Server\FinancialTradingService.Server.csproj", "{52F783BB-58F8-4856-A842-F0CDD84A64F1}"
 EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
@@ -27,10 +35,6 @@ Global
 		Release|Any CPU = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(ProjectConfigurationPlatforms) = postSolution
-		{8E2DA98F-301E-4289-BC33-1301868969DA}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
-		{8E2DA98F-301E-4289-BC33-1301868969DA}.Debug|Any CPU.Build.0 = Debug|Any CPU
-		{8E2DA98F-301E-4289-BC33-1301868969DA}.Release|Any CPU.ActiveCfg = Release|Any CPU
-		{8E2DA98F-301E-4289-BC33-1301868969DA}.Release|Any CPU.Build.0 = Release|Any CPU
 		{CDF05B23-1683-4630-B030-815B4A012A83}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
 		{CDF05B23-1683-4630-B030-815B4A012A83}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{CDF05B23-1683-4630-B030-815B4A012A83}.Release|Any CPU.ActiveCfg = Release|Any CPU
@@ -52,7 +56,6 @@ Global
 		HideSolutionNode = FALSE
 	EndGlobalSection
 	GlobalSection(NestedProjects) = preSolution
-		{8E2DA98F-301E-4289-BC33-1301868969DA} = {FECC50D6-A12C-4391-B756-931C10CD92B2}
 		{CDF05B23-1683-4630-B030-815B4A012A83} = {E9417270-55C9-418E-A1A6-F6EF8B2693EA}
 		{D47B1CE0-B5F1-47DA-8F53-CA19FE353B4D} = {E22A9C65-3E0A-4A9F-84B6-AB258AED44B4}
 		{59F4419E-718E-46DD-A939-7C8A6F54BBCF} = {B62189E1-250A-47B4-BC49-F2D63133D7F5}

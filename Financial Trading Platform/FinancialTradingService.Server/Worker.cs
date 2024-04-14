@@ -1,24 +1,59 @@
-namespace FinancialTradingService.Server
-{
-    public class Worker : BackgroundService
-    {
-        private readonly ILogger<Worker> _logger;
+using System.Net.Sockets;
+using System.Net;
+using System.Text;
 
-        public Worker(ILogger<Worker> logger)
+namespace Financial_Trading_Platform
+{
+    public class TcpWorker : BackgroundService
+    {
+        private readonly TcpListener _listener;
+
+        public TcpWorker()
         {
-            _logger = logger;
+            _listener = new TcpListener(IPAddress.Loopback, 8080);
         }
 
         protected override async Task ExecuteAsync(CancellationToken stoppingToken)
         {
+            _listener.Start();
+            Console.WriteLine("Worker rodando no IP " + _listener.LocalEndpoint);
+
+            try
+            {
+                while (!stoppingToken.IsCancellationRequested)
+                {
+                    var client = await _listener.AcceptTcpClientAsync();
+                    Console.WriteLine("Conexão aceita.");
+
+                    // Processar a conexão
+                    _ = ProcessConnectionAsync(client, stoppingToken);
+                }
+            }
+            finally
+            {
+                _listener.Stop();
+            }
+        }
+
+        private async Task ProcessConnectionAsync(TcpClient client, CancellationToken stoppingToken)
+        {
+            var buffer = new byte[1024];
+            var stream = client.GetStream();
+
             while (!stoppingToken.IsCancellationRequested)
             {
-                if (_logger.IsEnabled(LogLevel.Information))
-                {
-                    _logger.LogInformation("Worker running at: {time}", DateTimeOffset.Now);
-                }
-                await Task.Delay(1000, stoppingToken);
+                var bytesRead = await stream.ReadAsync(buffer, 0, buffer.Length, stoppingToken);
+                if (bytesRead == 0) break; // Cliente desconectou
+
+                var request = Encoding.UTF8.GetString(buffer, 0, bytesRead);
+                Console.WriteLine("Recebido: " + request);
+
+                // Processamento do pedido aqui
+
+                await stream.WriteAsync(buffer, 0, bytesRead, stoppingToken); // Ecoando de volta
             }
+
+            client.Close();
         }
     }
 }
