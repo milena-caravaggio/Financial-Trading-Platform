@@ -1,42 +1,36 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
-using NUnit.Framework;
-using Moq;
-using System.Collections.Generic;
-using FinancialTradingService.Server.Service;
+﻿using FinancialTradingService.CrossCutting.DTOs.Requests;
 using FinancialTradingService.Server.Dto.Request;
+using FinancialTradingService.Server.Service;
+using Moq;
 
 namespace FinancialTradingService.Tests.Services
 {
     public class MarketAnalysisServiceTests
     {
         private MarketAnalysisService _service;
-        private Mock<SmaService> _mockSmaService;
-        private Mock<MacdService> _mockMacdService;
+        private Mock<SMAService> _mockSMAService;
+        private Mock<MACDService> _mockMACDService;
 
         [SetUp]
         public void Setup()
         {
-            _mockSmaService = new Mock<SmaService>();
-            _mockMacdService = new Mock<MacdService>();
-            _service = new MarketAnalysisService(_mockSmaService.Object, _mockMacdService.Object);
+            _mockSMAService = new Mock<SMAService>();
+            _mockMACDService = new Mock<MACDService>();
+            _service = new MarketAnalysisService(_mockSMAService.Object, _mockMACDService.Object);
         }
 
         [Test]
-        public void AnalyzeMarketData_Should_Call_SmaAndMacdServices()
+        public void AnalyzeMarketData_Should_Call_SMAAndMACDServices()
         {
             // Arrange
-            var requestData = new MarketDataRequest { Data = new List<MarketDataPoint>() };
+            var requestData = new MarketDataRequest { MarketDataPoints = new List<MarketDataPointRequest>() };
 
             // Act
             var result = _service.AnalyzeMarketData(requestData);
 
             // Assert
-            _mockSmaService.Verify(s => s.CalculateSma(It.IsAny<List<MarketDataPoint>>(), It.IsAny<int>()), Times.Once);
-            _mockMacdService.Verify(m => m.CalculateMacd(It.IsAny<List<MarketDataPoint>>()), Times.Once);
+            _mockSMAService.Verify(s => s.CalculateSMA(It.IsAny<List<MarketDataPointRequest>>(), It.IsAny<int>()), Times.Once);
+            _mockMACDService.Verify(m => m.CalculateMACD(It.IsAny<List<MarketDataPointRequest>>()), Times.Once);
         }
     }
 }

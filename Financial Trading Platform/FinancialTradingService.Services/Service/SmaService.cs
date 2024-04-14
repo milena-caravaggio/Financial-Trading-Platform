@@ -1,25 +1,21 @@
-﻿using FinancialTradingService.Server.Dto.Request;
-using FinancialTradingService.Server.Dto.Response;
-using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
+﻿using FinancialTradingService.CrossCutting.DTOs.Requests;
+using FinancialTradingService.CrossCutting.DTOs.Responses;
+using FinancialTradingService.Services.Service.Interfaces;
 
 namespace FinancialTradingService.Server.Service
 {
-    public class SmaService
+    public class SMAService : ISMAService
     {
-        public List<SmaResult> CalculateSma(List<MarketDataPoint> data, int period)
+        public List<SMAResponse> CalculateSMA(List<MarketDataPointRequest> data, int period)
         {
-            var smaResults = new List<SmaResult>();
+            var smas = new List<SMAResponse>();
             var prices = data.Select(x => x.ClosePrice).ToList();
             for (int i = 0; i <= prices.Count - period; i++)
             {
                 double sum = prices.Skip(i).Take(period).Sum();
-                smaResults.Add(new SmaResult { Timestamp = data[i + period - 1].Timestamp, SmaValue = sum / period });
+                smas.Add(new SMAResponse { Timestamp = data[i + period - 1].Timestamp, SMAValue = sum / period });
             }
-            return smaResults;
+            return smas;
         }
 
     }

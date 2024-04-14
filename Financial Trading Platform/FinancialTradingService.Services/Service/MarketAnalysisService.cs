@@ -1,5 +1,6 @@
-﻿using FinancialTradingService.Server.Dto.Request;
+﻿using FinancialTradingPlatform.CrossCutting.DTOs.Requests;
 using FinancialTradingService.Server.Dto.Response;
+using FinancialTradingService.Services.Service.Interfaces;
 using System;
 using System.Collections.Generic;
 using System.Linq;
@@ -8,12 +9,12 @@ using System.Threading.Tasks;
 
 namespace FinancialTradingService.Server.Service
 {
-    public class MarketAnalysisService
+    public class MarketAnalysisService : IMarketAnalysisService
     {
-        private readonly SmaService _smaService;
-        private readonly MacdService _macdService;
+        private readonly ISMAService _smaService;
+        private readonly IMACDService _macdService;
 
-        public MarketAnalysisService(SmaService smaService, MacdService macdService)
+        public MarketAnalysisService(ISMAService smaService, IMACDService macdService)
         {
             _smaService = smaService;
             _macdService = macdService;
@@ -21,14 +22,14 @@ namespace FinancialTradingService.Server.Service
 
         public MarketAnalysisResponse AnalyzeMarketData(MarketDataRequest request)
         {
-            var smaResults = _smaService.CalculateSma(request.Data, 10);  // Exemplo com período 10 para SMA
-            var macdResults = _macdService.CalculateMacd(request.Data);
+            var smaResults = _smaService.CalculateSMA(request.MarketDataPoints, 10);  // Exemplo com período 10 para SMA
+            var macdResults = _macdService.CalculateMACD(request.MarketDataPoints);
 
             return new MarketAnalysisResponse
             {
-                Symbol = request.Data.FirstOrDefault()?.Symbol ?? "N/A",
-                SmaResults = smaResults,
-                MacdResults = macdResults
+                Symbol = request.MarketDataPoints.FirstOrDefault()?.Symbol ?? "N/A",
+                SMAResults = smaResults,
+                MACDResults = macdResults
             };
         }
     }

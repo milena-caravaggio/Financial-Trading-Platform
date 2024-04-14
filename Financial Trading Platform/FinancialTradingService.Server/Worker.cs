@@ -25,7 +25,6 @@ namespace Financial_Trading_Platform
                     var client = await _listener.AcceptTcpClientAsync();
                     Console.WriteLine("Conexão aceita.");
 
-                    // Processar a conexão
                     _ = ProcessConnectionAsync(client, stoppingToken);
                 }
             }
@@ -43,14 +42,12 @@ namespace Financial_Trading_Platform
             while (!stoppingToken.IsCancellationRequested)
             {
                 var bytesRead = await stream.ReadAsync(buffer, 0, buffer.Length, stoppingToken);
-                if (bytesRead == 0) break; // Cliente desconectou
+                if (bytesRead == 0) break;
 
                 var request = Encoding.UTF8.GetString(buffer, 0, bytesRead);
                 Console.WriteLine("Recebido: " + request);
 
-                // Processamento do pedido aqui
-
-                await stream.WriteAsync(buffer, 0, bytesRead, stoppingToken); // Ecoando de volta
+                await stream.WriteAsync(buffer, 0, bytesRead, stoppingToken);
             }
 
             client.Close();

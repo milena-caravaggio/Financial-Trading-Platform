@@ -3,8 +3,6 @@ using System.Text;
 using System.Text.Json;
 using RabbitMQ.Client;
 
-
-
 namespace FinancialTradingService.Infrastructure.Messaging
 {
     public class RabbitMqPublisher : IMessagePublisher

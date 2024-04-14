@@ -1,15 +1,7 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
-using NUnit.Framework;
+﻿using FinancialTradingService.Infrastructure.Messaging;
+using FinancialTradingService.Server.Dto.Response;
 using Moq;
 using RabbitMQ.Client;
-using FinancialTradingService.Infrastructure.Messaging;
-using System.Text;
-using System.Text.Json;
-using FinancialTradingService.Server.Dto.Response;
 
 
 namespace FinancialTradingService.Tests.Messaging
@@ -67,7 +59,6 @@ namespace FinancialTradingService.Tests.Messaging
 
             // Act & Assert
             Assert.Throws<Exception>(() => _publisher.PublishMarketData(new MarketAnalysisResponse()));
-            // Verificar se o erro foi logado ou se houve tentativa de reconexão, conforme a lógica implementada
         }
     }
 }
