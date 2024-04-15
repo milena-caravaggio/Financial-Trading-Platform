@@ -13,11 +13,11 @@ public class TCPWorker : BackgroundService
     private readonly Timer _timer;
     private readonly int _port = 8080;
 
-    public TCPWorker(IMarketAnalysisService analysisService, int intervalMinutes = 1)
+    public TCPWorker(IMarketAnalysisService analysisService, int intervalMinutes = 10)
     {
         _analysisService = analysisService;
 
-        _listener = new TcpListener(IPAddress.Any, _port);
+        _listener = new TcpListener(IPAddress.Loopback, _port);
         _timer = new Timer(SimulateMarketDataProcessing, null, TimeSpan.Zero, TimeSpan.FromMinutes(intervalMinutes));
         
     }
@@ -46,7 +46,7 @@ public class TCPWorker : BackgroundService
 
     private async Task ProcessConnectionAsync(TcpClient client, CancellationToken stoppingToken)
     {
-        var buffer = new byte[1024];
+        var buffer = new byte[1024 * 1024];
         var stream = client.GetStream();
 
         int bytesRead = await stream.ReadAsync(buffer, 0, buffer.Length, stoppingToken);
