@@ -1,0 +1,28 @@
+﻿services:
+  financialtradingplatformworkerservice:
+    image: financialtradingplatformworkerservice:dev
+    build:
+      context: .
+      dockerfile: Dockerfile
+    ports:
+      - "8080:8080"
+    environment:
+      - DOTNET_ENVIRONMENT=Development
+      - ASPNETCORE_HTTP_PORTS=8080
+      - DOTNET_USE_POLLING_FILE_WATCHER=1
+      - APP_UID=1654
+      - DOTNET_RUNNING_IN_CONTAINER=true
+      - DOTNET_VERSION=8.0.4
+      - ASPNET_VERSION=8.0.4
+    volumes:
+      - ./FinancialTradingPlatform.WorkerService:/app:rw
+      - ./src:/src:rw
+      - C:/Users/milena.acquesta/.nuget/packages:/.nuget/fallbackpackages:ro
+      - C:/Users/milena.acquesta/vsdbg/vs2017u5:/remote_debugger:rw
+      - C:/Users/milena.acquesta/AppData/Roaming/Microsoft/UserSecrets:/root/.microsoft/usersecrets:ro
+      - C:/Users/milena.acquesta/AppData/Roaming/Microsoft/UserSecrets:/home/app/.microsoft/usersecrets:ro
+    restart: on-failure
+
+networks:
+  default:
+    driver: bridge
