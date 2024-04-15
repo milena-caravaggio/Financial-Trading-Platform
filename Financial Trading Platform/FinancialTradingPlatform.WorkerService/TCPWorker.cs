@@ -5,21 +5,17 @@ using System.Net;
 using System.Text.Json;
 using System.Text;
 using FinancialTradingPlatform.CrossCutting.DTOs.Responses;
-using FinancialTradingPlatform.Infrastructure.Messaging;
-using FinancialTradingPlatform.Infrastructure.Messaging.Interfaces;
 
 public class TCPWorker : BackgroundService
 {
     private readonly TcpListener _listener;
     private readonly IMarketAnalysisService _analysisService;
-    private readonly IMessagePublisher _messagePublisher;
     private readonly Timer _timer;
     private readonly int _port = 8080;
 
-    public TCPWorker(IMarketAnalysisService analysisService, IMessagePublisher messagePublisher, int intervalMinutes = 1)
+    public TCPWorker(IMarketAnalysisService analysisService, int intervalMinutes = 1)
     {
         _analysisService = analysisService;
-        _messagePublisher = messagePublisher;
 
         _listener = new TcpListener(IPAddress.Any, _port);
         _timer = new Timer(SimulateMarketDataProcessing, null, TimeSpan.Zero, TimeSpan.FromMinutes(intervalMinutes));
@@ -67,8 +63,6 @@ public class TCPWorker : BackgroundService
         {
             MarketDataRequest requestData = JsonSerializer.Deserialize<MarketDataRequest>(receivedData);
             MarketAnalysisResponse response = _analysisService.AnalyzeMarketData(requestData);
-
-            _messagePublisher.PublishMarketData(response);
 
             string jsonResponse = JsonSerializer.Serialize(response);
             byte[] responseBytes = Encoding.UTF8.GetBytes(jsonResponse);
