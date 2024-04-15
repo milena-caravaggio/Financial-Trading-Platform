@@ -1,29 +1,19 @@
-#See https://aka.ms/customizecontainer to learn how to customize your debug container and how Visual Studio uses this Dockerfile to build your images for faster debugging.
-
-#FROM mcr.microsoft.com/dotnet/runtime:8.0 AS base
-#USER app
-#WORKDIR /app
-
-FROM mcr.microsoft.com/dotnet/core/aspnet:3.1-nanoserver-1809 AS base
-USER ContainerAdministrator
-RUN net localgroup administrators /add "User Manager\ContainerUser"
-USER ContainerUser
+# Use a base image that matches your project's requirements
+FROM mcr.microsoft.com/dotnet/aspnet:8.0 AS base
 WORKDIR /app
-EXPOSE 80
+EXPOSE 8080
 EXPOSE 443
 
 FROM mcr.microsoft.com/dotnet/sdk:8.0 AS build
-ARG BUILD_CONFIGURATION=Release
 WORKDIR /src
-COPY ["FinancialTradingPlatform.WorkerService/FinancialTradingPlatform.WorkerService.csproj", "FinancialTradingPlatform.WorkerService/"]
-RUN dotnet restore "./FinancialTradingPlatform.WorkerService/FinancialTradingPlatform.WorkerService.csproj"
+COPY ["FinancialTradingPlatform.WorkerService/FinancialTradingPlatform.WorkerService.csproj", "./"]
+RUN dotnet restore "FinancialTradingPlatform.WorkerService.csproj"
 COPY . .
 WORKDIR "/src/FinancialTradingPlatform.WorkerService"
-RUN dotnet build "./FinancialTradingPlatform.WorkerService.csproj" -c $BUILD_CONFIGURATION -o /app/build
+RUN dotnet build "FinancialTradingPlatform.WorkerService.csproj" -c Release -o /app/build
 
 FROM build AS publish
-ARG BUILD_CONFIGURATION=Release
-RUN dotnet publish "./FinancialTradingPlatform.WorkerService.csproj" -c $BUILD_CONFIGURATION -o /app/publish /p:UseAppHost=false
+RUN dotnet publish "FinancialTradingPlatform.WorkerService.csproj" -c Release -o /app/publish
 
 FROM base AS final
 WORKDIR /app
