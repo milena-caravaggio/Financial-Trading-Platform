@@ -1,5 +1,5 @@
 ## Financial-Trading-Platform
-`FinancialTradingService` é um serviço de processamento de dados em tempo real desenvolvido em .NET 8.0, destinado a plataformas de trading financeiro. Este serviço robusto gerencia a recepção, processamento e transmissão de dados de mercado, oferecendo cálculos de indicadores técnicos como SMA e MACD, essenciais para decisões de trading baseadas em dados.
+`FinancialTradingService` é um serviço de processamento de dados em tempo real desenvolvido em .NET 8.0, destinado a plataformas de trading financeiro. Este serviço gerencia a recepção, processamento e transmissão de dados de mercado, oferecendo cálculos de indicadores técnicos como SMA e MACD, essenciais para decisões de trading baseadas em dados.
 
 
 ## Features
